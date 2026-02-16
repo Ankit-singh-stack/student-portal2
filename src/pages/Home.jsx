@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { 
   FaChartLine, FaRobot, FaShieldAlt, FaUsers, 
-  FaArrowRight, FaStar, FaClock, 
+  FaArrowRight, FaStar, FaClock, FaGraduationCap 
 } from 'react-icons/fa';
 
 export default function Home() {
@@ -218,10 +218,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-bg opacity-90"></div>
-        <div className="relative max-w-4xl mx-auto text-center px-4">
+      {/* Updated CTA Section with BLACK BACKGROUND */}
+      <section className="py-20 relative overflow-hidden bg-black">
+        {/* Optional subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-black opacity-90"></div>
+        
+        <div className="relative max-w-4xl mx-auto text-center px-4 z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -230,20 +232,20 @@ export default function Home() {
             <h2 className="text-4xl font-bold mb-6 text-white">
               Ready to Transform Student Performance?
             </h2>
-            <p className="text-xl text-white/90 mb-10">
+            <p className="text-xl text-gray-300 mb-10">
               Join thousands of educators who are already using our platform to make a difference
             </p>
             {currentUser ? (
               <Link
                 to="/dashboard"
-                className="inline-block bg-white text-blue-600 px-12 py-4 rounded-lg text-lg font-semibold hover:shadow-2xl transition-all"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-12 py-4 rounded-lg text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105"
               >
                 Go to Dashboard
               </Link>
             ) : (
               <Link
                 to="/signup"
-                className="inline-block bg-white text-blue-600 px-12 py-4 rounded-lg text-lg font-semibold hover:shadow-2xl transition-all"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-12 py-4 rounded-lg text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105"
               >
                 Start Your Free Trial
               </Link>
