@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+/* Custom responsive breakpoints */
+@media (min-width: 480px) {
+  .xs\:inline {
+    display: inline;
+  }
+  .xs\:hidden {
+    display: none;
+  }
+}
+
+/* Mobile-first adjustments */
+@media (max-width: 640px) {
+  .stat-card {
+    @apply p-3;
+  }
+  
+  .dashboard-grid {
+    @apply gap-3;
+  }
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button, 
+  [role="button"],
+  a {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  input, 
+  select, 
+  textarea {
+    @apply text-base;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    @apply px-4;
+  }
+}

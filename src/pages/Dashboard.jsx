@@ -81,26 +81,26 @@ export default function Dashboard() {
   const StatCard = ({ icon, title, value, change, color }) => (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="bg-white p-6 rounded-xl shadow-lg"
+      className="bg-white p-4 sm:p-6 rounded-xl shadow-lg"
     >
       <div className="flex items-start justify-between">
-        <div>
-          <p className="text-gray-500 text-sm mb-1">{title}</p>
-          <p className="text-3xl font-bold text-gray-800">{value}</p>
+        <div className="flex-1">
+          <p className="text-gray-500 text-xs sm:text-sm mb-1">{title}</p>
+          <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">{value}</p>
           {change && (
-            <div className="flex items-center mt-2">
+            <div className="flex items-center mt-1 sm:mt-2">
               {change > 0 ? (
-                <FaArrowUp className="text-green-500 mr-1 text-sm" />
+                <FaArrowUp className="text-green-500 mr-1 text-xs sm:text-sm" />
               ) : (
-                <FaArrowDown className="text-red-500 mr-1 text-sm" />
+                <FaArrowDown className="text-red-500 mr-1 text-xs sm:text-sm" />
               )}
-              <span className={`text-sm ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {Math.abs(change)}% from last month
+              <span className={`text-xs sm:text-sm ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                {Math.abs(change)}%
               </span>
             </div>
           )}
         </div>
-        <div className={`p-4 rounded-lg bg-${color}-100 text-${color}-600`}>
+        <div className={`p-2 sm:p-3 lg:p-4 rounded-lg bg-${color}-100 text-${color}-600 ml-2`}>
           {icon}
         </div>
       </div>
@@ -110,34 +110,34 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8"
+          className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 lg:mb-8"
         >
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+          <div className="w-full sm:w-auto mb-3 sm:mb-0">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
               Welcome back, {currentUser?.name || currentUser?.email?.split('@')[0] || 'Educator'}!
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-sm sm:text-base text-gray-600 mt-1">
               Here's your real-time performance dashboard
             </p>
           </div>
           
-          <div className="flex space-x-4 mt-4 md:mt-0">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <select
               value={selectedTimeframe}
               onChange={(e) => setSelectedTimeframe(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="week">This Week</option>
               <option value="month">This Month</option>
@@ -149,53 +149,53 @@ export default function Dashboard() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleExportData}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors"
             >
               <FaDownload />
-              <span>Export Report</span>
+              <span>Export</span>
             </motion.button>
           </div>
         </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+        {/* Stats Grid - Responsive columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6 lg:mb-8">
           <StatCard
-            icon={<FaUsers size={20} />}
-            title="Total Students"
+            icon={<FaUsers size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
+            title="Students"
             value={stats.totalStudents.toLocaleString()}
             change={3.2}
             color="blue"
           />
           <StatCard
-            icon={<FaChartLine size={20} />}
+            icon={<FaChartLine size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
             title="Avg. Score"
             value={`${stats.averageScore}%`}
             change={2.1}
             color="green"
           />
           <StatCard
-            icon={<FaTrophy size={20} />}
-            title="Top Performers"
+            icon={<FaTrophy size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
+            title="Top"
             value={stats.topPerformers.toLocaleString()}
             change={5.4}
             color="yellow"
           />
           <StatCard
-            icon={<FaClock size={20} />}
+            icon={<FaClock size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
             title="Attendance"
             value={`${stats.attendanceRate}%`}
             change={-1.2}
             color="purple"
           />
           <StatCard
-            icon={<FaArrowUp size={20} />}
+            icon={<FaArrowUp size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
             title="Improvement"
             value={`${stats.improvementRate}%`}
             change={4.8}
             color="indigo"
           />
           <StatCard
-            icon={<FaUserGraduate size={20} />}
+            icon={<FaUserGraduate size={14} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />}
             title="At Risk"
             value={stats.atRiskStudents}
             change={-8.3}
@@ -204,30 +204,31 @@ export default function Dashboard() {
         </div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
           {/* Performance by Subject */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-xl shadow-lg"
+            className="bg-white p-4 sm:p-6 rounded-xl shadow-lg"
           >
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <FaBookOpen className="mr-2 text-blue-600" />
-              Performance by Subject
+            <h2 className="text-base sm:text-lg lg:text-xl font-semibold mb-4 flex items-center">
+              <FaBookOpen className="mr-2 text-blue-600 text-sm sm:text-base" />
+              <span className="text-sm sm:text-base">Performance by Subject</span>
             </h2>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={performanceData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 100]} />
-                <YAxis dataKey="subject" type="category" width={100} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="score" fill="#3b82f6" name="Current Score" />
-                <Bar dataKey="average" fill="#10b981" name="Class Average" />
-                <Bar dataKey="target" fill="#f59e0b" name="Target" />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-48 sm:h-64 lg:h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={performanceData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" domain={[0, 100]} tick={{fontSize: 10}} />
+                  <YAxis dataKey="subject" type="category" width={60} tick={{fontSize: 10}} />
+                  <Tooltip />
+                  <Legend wrapperStyle={{fontSize: '10px'}} />
+                  <Bar dataKey="score" fill="#3b82f6" name="Score" />
+                  <Bar dataKey="average" fill="#10b981" name="Average" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </motion.div>
 
           {/* Student Distribution */}
@@ -235,37 +236,39 @@ export default function Dashboard() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white p-6 rounded-xl shadow-lg"
+            className="bg-white p-4 sm:p-6 rounded-xl shadow-lg"
           >
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <FaGraduationCap className="mr-2 text-purple-600" />
-              Student Distribution by Grade
+            <h2 className="text-base sm:text-lg lg:text-xl font-semibold mb-4 flex items-center">
+              <FaGraduationCap className="mr-2 text-purple-600 text-sm sm:text-base" />
+              <span className="text-sm sm:text-base">Grade Distribution</span>
             </h2>
-            <ResponsiveContainer width="100%" height={350}>
-              <PieChart>
-                <Pie
-                  data={[
-                    { name: 'A Grade (90-100)', value: Math.floor(Math.random() * 100) + 200 },
-                    { name: 'B Grade (80-89)', value: Math.floor(Math.random() * 150) + 300 },
-                    { name: 'C Grade (70-79)', value: Math.floor(Math.random() * 100) + 250 },
-                    { name: 'D Grade (60-69)', value: Math.floor(Math.random() * 80) + 150 },
-                    { name: 'F Grade (Below 60)', value: Math.floor(Math.random() * 50) + 50 }
-                  ]}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={true}
-                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                  outerRadius={120}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {performanceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="h-48 sm:h-64 lg:h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'A', value: Math.floor(Math.random() * 100) + 200 },
+                      { name: 'B', value: Math.floor(Math.random() * 150) + 300 },
+                      { name: 'C', value: Math.floor(Math.random() * 100) + 250 },
+                      { name: 'D', value: Math.floor(Math.random() * 80) + 150 },
+                      { name: 'F', value: Math.floor(Math.random() * 50) + 50 }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    outerRadius="70%"
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {performanceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </motion.div>
 
           {/* Performance Trend */}
@@ -273,107 +276,90 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white p-6 rounded-xl shadow-lg lg:col-span-2"
+            className="bg-white p-4 sm:p-6 rounded-xl shadow-lg lg:col-span-2"
           >
-            <h2 className="text-xl font-semibold mb-4 flex items-center">
-              <FaChartLine className="mr-2 text-green-600" />
-              Performance Trends Over Time
+            <h2 className="text-base sm:text-lg lg:text-xl font-semibold mb-4 flex items-center">
+              <FaChartLine className="mr-2 text-green-600 text-sm sm:text-base" />
+              <span className="text-sm sm:text-base">Performance Trends</span>
             </h2>
-            <ResponsiveContainer width="100%" height={350}>
-              <AreaChart data={trendData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Area 
-                  type="monotone" 
-                  dataKey="score" 
-                  stackId="1"
-                  stroke="#3b82f6" 
-                  fill="#3b82f6" 
-                  fillOpacity={0.3}
-                  name="Average Score"
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="attendance" 
-                  stackId="2"
-                  stroke="#10b981" 
-                  fill="#10b981" 
-                  fillOpacity={0.3}
-                  name="Attendance Rate"
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="participation" 
-                  stackId="3"
-                  stroke="#f59e0b" 
-                  fill="#f59e0b" 
-                  fillOpacity={0.3}
-                  name="Participation Rate"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+            <div className="h-48 sm:h-64 lg:h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trendData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" tick={{fontSize: 10}} />
+                  <YAxis tick={{fontSize: 10}} />
+                  <Tooltip />
+                  <Legend wrapperStyle={{fontSize: '10px'}} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="score" 
+                    stroke="#3b82f6" 
+                    fill="#3b82f6" 
+                    fillOpacity={0.3}
+                    name="Score"
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="attendance" 
+                    stroke="#10b981" 
+                    fill="#10b981" 
+                    fillOpacity={0.3}
+                    name="Attendance"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </motion.div>
         </div>
 
-        {/* Recent Activity Table */}
+        {/* Recent Activity Table - Horizontal scroll on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="bg-white p-6 rounded-xl shadow-lg"
+          className="bg-white p-4 sm:p-6 rounded-xl shadow-lg"
         >
-          <h2 className="text-xl font-semibold mb-4">Recent Student Activity</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {[
-                  { name: 'Alice Johnson', subject: 'Mathematics', score: 95, status: 'Excellent', time: '5 min ago' },
-                  { name: 'Bob Smith', subject: 'Science', score: 78, status: 'Good', time: '15 min ago' },
-                  { name: 'Carol Davis', subject: 'English', score: 82, status: 'Good', time: '25 min ago' },
-                  { name: 'David Wilson', subject: 'History', score: 65, status: 'Needs Improvement', time: '35 min ago' },
-                  { name: 'Eva Brown', subject: 'Computer Science', score: 98, status: 'Excellent', time: '45 min ago' },
-                ].map((student, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{student.name}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">{student.subject}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        student.score >= 90 ? 'bg-green-100 text-green-800' :
-                        student.score >= 80 ? 'bg-blue-100 text-blue-800' :
-                        student.score >= 70 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {student.score}%
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        student.status === 'Excellent' ? 'bg-green-100 text-green-800' :
-                        student.status === 'Good' ? 'bg-blue-100 text-blue-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {student.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">{student.time}</td>
+          <h2 className="text-base sm:text-lg lg:text-xl font-semibold mb-4">Recent Activity</h2>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle px-4 sm:px-0">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {[
+                    { name: 'Alice Johnson', subject: 'Math', score: 95, status: 'Excellent', time: '5 min' },
+                    { name: 'Bob Smith', subject: 'Science', score: 78, status: 'Good', time: '15 min' },
+                    { name: 'Carol Davis', subject: 'English', score: 82, status: 'Good', time: '25 min' },
+                    { name: 'David Wilson', subject: 'History', score: 65, status: 'Needs Help', time: '35 min' },
+                    { name: 'Eva Brown', subject: 'CS', score: 98, status: 'Excellent', time: '45 min' },
+                  ].map((student, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">{student.name}</td>
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">{student.subject}</td>
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          student.score >= 90 ? 'bg-green-100 text-green-800' :
+                          student.score >= 80 ? 'bg-blue-100 text-blue-800' :
+                          student.score >= 70 ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {student.score}%
+                        </span>
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">{student.status}</td>
+                      <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm">{student.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </motion.div>
 
@@ -382,11 +368,11 @@ export default function Dashboard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-6 text-center text-sm text-gray-500"
+          className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-500"
         >
           <span className="inline-flex items-center">
-            <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
-            Live updates every 30 seconds • Last updated: {new Date().toLocaleTimeString()}
+            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 bg-green-500 rounded-full animate-pulse mr-1 sm:mr-2"></span>
+            Live updates • {new Date().toLocaleTimeString()}
           </span>
         </motion.div>
       </div>
